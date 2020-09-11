@@ -6,11 +6,23 @@ lines = file.read().splitlines()
 # DEFINE PROGRAM STRUCTURES HERE ======
 
 class Program():
-    pass
+    def __init__(self,program):
+        # set the program id
+        # set the Randauszug string
+        # set the lines of the program
+        pass
 
 class Randauszug(Program):
-    def __init__(self, v_args, r_args):
-        self.v_args = v_args.split(',')
+    def __init__(self, arg):
+        self.name = arg[:arg.index('(')]
+        param_string = arg[arg.index('(')+1:arg.index(')')]
+        self.parameters = param_string.split(',')
+        # this is clearly a bad way to do this
+        returns_string = arg[arg.index('R0'):]
+        returns_temp_list = returns_string.split(',')
+        if ')' in returns_temp_list[-1]:
+            returns_temp_list[-1] = returns_temp_list[-1][:-1]
+        self.returns = returns_temp_list
         pass
 
 # the basic structure goes like this:
@@ -96,6 +108,8 @@ class Assign(Expr):
     def __init__(self,l,r):
         self.l = l
         self.r = r
+        # get the binary value of l from the dictionary
+        # set the binary value of r as that of l
         pass
 
 class GreaterThan(Expr):
@@ -131,24 +145,21 @@ class Variablen(Expr):
         # R for output values, write only
         self.subindex = var[1:var.index('[')]
         self.component = var[var.index('[')+1:var.index(':')]
-        # if component returns an empty string, this is taken to mean we are //
+        # if component returns an empty string, this is taken to mean we are
         # referencing the whole variable, not a specific component
         self.type = var[var.index(':')+1:var.index(']')]
-    def bin_setter(self,val):
-        binval = bin(val)
-        if len(binval)-2 < int(self.type[:-2]):
-            diff = int(self.type[:-2])-len(binval)+2
-            binval = binval[:2] + ('0'*diff) + binval[2:]
-        self.binval = binval
-        print(binval)
         pass
-    # new function that gets the type and converts it into a real number as well as a binary
-    # creating binval would look like:
-    # binval = bin(NUMBER)
-    # if len(binval)-2 < self.type[2:]:
-        # get the difference between what it is and what it should be
-        # insert that many 0's at index 2
-        # binval = that new thing
+
+    def bin_setter(self,val):
+        binval = bin(val)[2:]
+        if len(binval) < int(self.type[:-2]):
+            diff = int(self.type[:-2])-len(binval)
+            binval = ('0'*diff) + binval
+        self.binval = binval
+        print(int(binval,2))
+        pass
+    # this is probably not going to work, it should be taking the binval initially
+    # not the int val; this doesn't actualy work with the language the way i have it set up
     # dictionary entry would look like:
     # {structure+subindex : binval}
 
@@ -161,17 +172,9 @@ class Constanten(Expr):
 
 def main():
     # operators = ['*','/','+','-','->','=>','&','|','!','<','>']
-    # variables_in_program = {}
-    # linevars = []
-    # working = lines[0]
-    # # while 'V' in working:
-    # if 'V' in working:
-    #     linevars.append(working[working.index('V'):working.index(']')+1])
-    #     working = working.replace(working[working.index('V'):working.index(']')+1],'')
-    # print(working)
-    # print(linevars)
-    x = Variablen('V0[:8.0]')
-    x.bin_setter(5)
+    # what should be happening here is we split by program and send each program
+    # to the program class, which then sends all the jobs elsewhere
+    x = Randauszug('R(V0[:8.0],V1[:8.0])=>(R0[:8.0],R1[:8.0])')
 
 
 
