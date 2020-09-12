@@ -1,5 +1,5 @@
 # Overview
-This is an interpreter written in python for the Plankalkül language, originally created by Konrad Zuse. I found that there was only a compiler written, and it required you to ude the 2D matrix originally designed by Zuse. This interpreter allows you to use the updated "Plankalkül 2000", or linearized Plankalkül, developed by Raúl Rojas, Cüneyt Göktekin, Gerald Friedland, Mike Krüger, Olaf Langmack, and Denis Kuniß.
+This is an interpreter written in python for the Plankalkül language, originally created by Konrad Zuse. I found that there was only a compiler written, and it required you to use the 2D matrix originally designed by Zuse. This interpreter allows you to use the updated "Plankalkül 2000", or linearized Plankalkül, developed by Raúl Rojas, Cüneyt Göktekin, Gerald Friedland, Mike Krüger, Olaf Langmack, and Denis Kuniß.
 
 ## Running The Interpreter
 Because this is a python program, and because there is no filetype for Plankalkül, just use a plain .txt document, and specify the document name in the command line call, like so:
