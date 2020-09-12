@@ -8,8 +8,11 @@ lines = file.read().splitlines()
 class Program():
     def __init__(self,program):
         # set the program id
+        # HOLD THE VARIBALES FOR THE PROGRAM
         # set the Randauszug string
-        # set the lines of the program
+        # set the lines of the program (list with result logic?)
+        # you're probably gonna need a class for a line of the program
+        # probably each line gets assigned
         pass
 
 class Randauszug(Program):
@@ -25,114 +28,104 @@ class Randauszug(Program):
         self.returns = returns_temp_list
         pass
 
-# the basic structure goes like this:
-# P0 R (V0[etc], V1[etc]) => R0[etc]
-# do your stuff here
-# END
-
-# P is the program with assigned number, it starts the definition for a program
-# R is like the name of the function itself, starts the arg/output definition
-# inside the parentheses you have your input variables, always V
-# the [etc] is like your variable definition stuff
-# R0 is like your expected return, and you can have more than one
-# the stuff in the middle is the process for your program
-# you must give a resulting R0 or Rwhatever
-# END is obviously the end of the program
-
 class Expr(Program):
     pass
 
 # DEFINE OPERATORS HERE ===============
 
-class Multiply(Expr):
+# find a way to have the symbol passed to Operators class and automatically pick the right one
+# that's probably not done here because this is just for operator definitions
+
+class MathOps(Expr):
+    # these need to be stored in a third Z variable
+    # V0 + V1 => Z0 handles like:
+    # MathOps.add(V0, V1)
+    # V0 + V1 + V2 => handles like:
+    # MathOps.add(V0, MathOps.add(V1, V2))
     def __init__(self,l,r):
         self.l = l
         self.r = r
-        return l*r
+        pass
 
-class Divide(Expr):
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
-        return l/r
+    def multiply():
+        return(self.l*self.r)
 
-class Add(Expr):
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
-        return l+r
+    def divide():
+        return(self.l/self.r)
 
-class Subtract(Expr):
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
-        return l-r
+    def add():
+        return(self.l+self.r)
 
-# DEFINE LOGIC HERE ===================
+    def subtract():
+        return(self.l-self.r)
 
-class Guard(Expr):
-    def __init__(self,l,r):
+    def guard():
         # defined as ->
         # l is always going to be bool
+        # r is always going to be an operation, there must be a way to check this
         # probably raise an error here otherwise
         # also probably raise an error for wrong types elsewhere
-        self.l = l
-        self.r = r
         if l:
             return r
         else:
             pass
 
-class Conjunction(Expr):
-    # defined as &
+class BoolOps(Expr):
     def __init__(self,l,r):
         self.l = l
         self.r = r
+
+    # these ones assess two vars OR a bit from each var, which is treated as bool ==========
+    # ex: V0[:8.0] | V1[:8.0]
+    # ex: V0[0:8.0] & V1[1:8.0]
+    # the best way to do this might literally be to compare strings
+
+    def conjunction():
+        # &
         return (l and r)
 
-class Disconjunction(Expr):
-    # defined as |
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
+    def disconjunction():
+        # |
         return (l or r)
 
-class Negation(Expr):
-    # defined as !
-    def __init__(self,var):
-        self.var = var
-        return (not var)
+    def negation():
+        # you may have to place this one in a seperate class
+        # !
+        return (not r)
+
+    def xor():
+        # /~
+        return ((not l and r) or (l and not r))
+
+    # these ones produce bools from two variables ===========
+    # this might be a problem if we go the string comparison route, because these return bools
+
+    def greaterthan():
+        # >
+        return(l>r)
+
+    def lessthan():
+        # <
+        return(l<r)
+
+    def equalto():
+        # =
+        # this works for both variables and constants
+        return(l==r)
+
+
+# DEFINE LOGIC HERE ===================
 
 class Assign(Expr):
     # defined as =>
+    # takes a variable and assigns its binary value to the binary value of another Z or R variable
+    # maybe this creates the Z variable on command? no previous dictionary store?
     def __init__(self,l,r):
         self.l = l
         self.r = r
         # get the binary value of l from the dictionary
         # set the binary value of r as that of l
         pass
-
-class GreaterThan(Expr):
-    # defined as >
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
-        return l>r
-
-class LessThan(Expr):
-    # defined as <
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
-        return l<r
-
-class EqualTo(Expr):
-    # defined as =
-    # this works for any two structures of any type apparently
-    def __init__(self,l,r):
-        self.l = l
-        self.r = r
-        return l==r
 
 # DEFINE VARIABLE TYPES HERE ==========
 
@@ -156,7 +149,6 @@ class Variablen(Expr):
             diff = int(self.type[:-2])-len(binval)
             binval = ('0'*diff) + binval
         self.binval = binval
-        print(int(binval,2))
         pass
     # this is probably not going to work, it should be taking the binval initially
     # not the int val; this doesn't actualy work with the language the way i have it set up
@@ -171,7 +163,6 @@ class Constanten(Expr):
 # DEFINE CODE SPLITTER HERE ===========
 
 def main():
-    # operators = ['*','/','+','-','->','=>','&','|','!','<','>']
     # what should be happening here is we split by program and send each program
     # to the program class, which then sends all the jobs elsewhere
     x = Randauszug('R(V0[:8.0],V1[:8.0])=>(R0[:8.0],R1[:8.0])')
@@ -182,9 +173,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-# because of the way variables work here, we're gonna have to use a dictionary
-# we will store all the variables in full in the dictionary in binary
-# to reference a specific bit we may need to convert to string???
 # TODO: create while class with i0 variable
 # TODO: create string splitter
 # TODO: R auto outputs
