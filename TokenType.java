@@ -3,10 +3,11 @@ package com.peter_shoes_.plankalkul;
 enum TokenType {
   // Single-character tokens.
   LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-  COMMA, DOT, SEMICOLON,
+  COMMA, DOT,
   PLUS, MULTIPLY,
   BANG, CONJUNCTION, DISCONJUNCTION,
-  EQUAL, GREATER, LESS,
+  GREATER, LESS,
+  ITERATOR//iterator as i
 
   // two character tokens.
   MINUS, GUARD,
@@ -20,7 +21,7 @@ enum TokenType {
 
 
   // Keywords.
-  END, ITERATOR//iterator as i
+  END,
 
   EOF
 }
