@@ -47,7 +47,7 @@ class Scanner {
       case '-': addToken(match('>') ? GUARD : MINUS); break;
       case '=': addToken(match('>') ? ASSIGNMENT : EQUAL); break;
       case '/': addToken(match('~') ? XOR : DIVIDE); break;
-
+      case
       case ' ':
       case '\r':
       case '\t':
@@ -58,6 +58,7 @@ class Scanner {
         line++;
         break;
         // now here we gotta add the cases for variables and all that other shit
+        //  variable regex '[VZRi]\d+\[(?:\d+\.+)*\d*\:(?:\d+\.+)*0\]'
       default:
         Plankalkul.error(line, "Unexpected character.");
         break;
