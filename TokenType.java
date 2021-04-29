@@ -7,7 +7,7 @@ enum TokenType {
   PLUS, MULTIPLY,
   BANG, CONJUNCTION, DISCONJUNCTION,
   GREATER, LESS,
-  ITERATOR//iterator as i
+  ITERATOR,//iterator as i
 
   // two character tokens.
   MINUS, GUARD,
