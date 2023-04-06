@@ -1,3 +1,6 @@
+PLEASE NOTE:
+To anyone looking at this in the future, this has not been updated in a very long time and I absolutely do not stand by my work here.
+
 # Overview
 This is an interpreter written in java for the Plankalkül language, originally created by Konrad Zuse. I found that there was only a compiler written, and it required you to use the 2D matrix originally designed by Zuse. This interpreter allows you to use the updated "Plankalkül 2000", or linearized Plankalkül, developed by Raúl Rojas, Cüneyt Göktekin, Gerald Friedland, Mike Krüger, Olaf Langmack, and Denis Kuniß.
 
